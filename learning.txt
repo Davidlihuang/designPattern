@@ -1,0 +1,49 @@
+# designPattern
+设计模式学习笔记
+## 一、单例模式
+1. 定义：保证一个类只有一个实例，并提供一个该示例的全局访问点。
+2. 类图
+   属性：
+       static uniqueInstance; //静态实例
+       singletonData;         //单例中的数据
+   方法：
+       static getInstance(); //获取单例对象，若不存在则构建，否则直接获取
+       SingletonOperation(); //单例对象相关的操作
+       GetSingletonData();   //获取单例的数据
+3. 构建单例的方式
+    ① 、单线程
+    Singleton* Singleton::getInstance()
+    {
+       if(m_instance == nullptr)
+       {
+           m_instance = new Singleton();
+       }
+       return m_instance;
+    }
+    ② 、线程安全
+    Singleton* Singleton::getInstance()
+    {
+        Lock lock; //伪代码，加锁
+        if(nullptr == m_instance)
+        {
+            m_instance = new Singleton();
+        }
+        return m_instance;   
+    }
+   ③ 、双锁，但reorder造成问题
+    Singleton* Singleton::getInstance()
+    {
+        if(nullptr == m_instance)
+        {
+            Lock lock;//伪代码，加锁
+            if(nullptr == m_instance)
+            {
+                m_instance = new Singleton();
+            }
+        }
+        return m_instance;
+    }
+   ④ 、c++11的跨平台线程安全以及reorder的解决方案
+   ⑤ 、使用引用
+   ⑥ 、使用pthread
+
